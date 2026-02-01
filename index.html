@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Age Calculator</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+
+      body {
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #fff;
+        transition: background 1s;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        text-align: center;
+      }
+
+      .dobInput {
+        padding: 12px 15px;
+        margin: 5px;
+        font-size: 16px;
+        border-radius: 10px;
+        border: none;
+        width: 80px;
+        text-align: center;
+      }
+
+      button {
+        padding: 12px 25px;
+        font-size: 16px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.4);
+        color: #fff;
+        font-weight: 500;
+        margin-top: 15px;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: rgba(255, 255, 255, 0.7);
+        transform: scale(1.05);
+      }
+
+      #result {
+        margin-top: 25px;
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.25);
+        padding: 20px 25px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        min-width: 250px;
+      }
+
+      .dobLabel {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>✨Age Calculator✨</h1>
+
+    <div>
+      <div class="dobLabel">Enter your Birth Date</div>
+      <input
+        type="number"
+        id="day"
+        class="dobInput"
+        placeholder="DD"
+        min="1"
+        max="31"
+      />
+      <input
+        type="number"
+        id="month"
+        class="dobInput"
+        placeholder="MM"
+        min="1"
+        max="12"
+      />
+      <input
+        type="number"
+        id="year"
+        class="dobInput"
+        placeholder="YYYY"
+        min="1900"
+        max="2100"
+      />
+    </div>
+
+    <button onclick="calculateAge()">Calculate Age</button>
+
+    <div id="result">Your age will appear here</div>
+
+    <script>
+      function calculateAge() {
+        const day = parseInt(document.getElementById("day").value);
+        const month = parseInt(document.getElementById("month").value);
+        const year = parseInt(document.getElementById("year").value);
+
+        if (!day || !month || !year)
+          return alert("Please enter valid day, month, and year!");
+
+        const dob = new Date(year, month - 1, day);
+        const today = new Date();
+
+        if (dob > today) return alert("Birth date cannot be in the future!");
+        if (day > 31 || day < 1 || month < 1 || month > 12)
+          return alert("Invalid date entered!");
+
+        let years = today.getFullYear() - dob.getFullYear();
+        let months = today.getMonth() - dob.getMonth();
+        let days = today.getDate() - dob.getDate();
+
+        if (days < 0) {
+          months--;
+          const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+          days += prevMonth.getDate();
+        }
+
+        if (months < 0) {
+          years--;
+          months += 12;
+        }
+
+        document.getElementById("result").textContent =
+          `You are ${years} years, ${months} months, and ${days} days old.`;
+      }
+    </script>
+  </body>
+</html>
